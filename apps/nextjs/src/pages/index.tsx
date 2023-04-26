@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import { useState } from 'react'
 import { trpc } from "../utils/trpc";
 import type { inferProcedureOutput } from "@trpc/server";
 import type { AppRouter } from "@acme/api";
@@ -18,9 +19,41 @@ const PostCard: React.FC<{
     </div>
   );
 };
-
+type PostType = {
+  id: string,
+  title: string,
+  content: string
+}
+const PostShow: React.FC = () => {
+  const postQuery = trpc.post.all.useMutation();
+  const [data, setData] = useState<PostType[]>([])
+  const submitHandler = () => {
+    postQuery.mutate(undefined, {
+      onSuccess: (result) => {
+        setData(result)
+      }
+    })
+  }
+  return (
+    <div>
+      <button onClick={submitHandler}>Click me to Show posts</button>
+      <div className="flex h-[60vh] justify-center overflow-y-scroll px-4 text-2xl">
+            {/* {postQuery.data ? ( */}
+            {data ? (
+              <div className="flex flex-col gap-4">
+                {data?.map((p) => {
+                  return <PostCard key={p.id} post={p} />;
+                })}
+              </div>
+            ) : (
+              <p>Loading..</p>
+            )}
+          </div>
+    </div>
+  )
+}
 const Home: NextPage = () => {
-  const postQuery = trpc.post.all.useQuery();
+  // const postQuery = trpc.post.all.useQuery();
 
   return (
     <>
@@ -35,18 +68,7 @@ const Home: NextPage = () => {
             Create <span className="text-[hsl(280,100%,70%)]">T3</span> Turbo
           </h1>
           <AuthShowcase />
-
-          <div className="flex h-[60vh] justify-center overflow-y-scroll px-4 text-2xl">
-            {postQuery.data ? (
-              <div className="flex flex-col gap-4">
-                {postQuery.data?.map((p) => {
-                  return <PostCard key={p.id} post={p} />;
-                })}
-              </div>
-            ) : (
-              <p>Loading..</p>
-            )}
-          </div>
+          <PostShow />
         </div>
       </main>
     </>
