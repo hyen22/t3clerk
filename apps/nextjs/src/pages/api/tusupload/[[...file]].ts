@@ -32,5 +32,6 @@ const tusServer = new Server({
 });
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  console.log('req headers received from tusupload:', req.headers)
   return tusServer.handle(req, res);
 }
