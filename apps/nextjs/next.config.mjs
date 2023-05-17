@@ -12,7 +12,7 @@ const config = {
   transpilePackages: ["@acme/api", "@acme/db"],
   // We already do linting on GH actions
   eslint: {
-    ignoreDuringBuilds: !!process.env.CI,
+    ignoreDuringBuilds: true,
   },
 };
 
