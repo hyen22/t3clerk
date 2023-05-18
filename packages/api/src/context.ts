@@ -11,7 +11,7 @@ import type {
  * Replace this with an object if you want to pass things to createContextInner
  */
 type AuthContextProps = {
-  auth: SignedInAuthObject | SignedOutAuthObject;
+  auth: SignedInAuthObject | SignedOutAuthObject | null | undefined;
 };
 
 /** Use this helper for:
@@ -31,7 +31,14 @@ export const createContextInner = async ({ auth }: AuthContextProps) => {
  * @link https://trpc.io/docs/context
  **/
 export const createContext = async (opts: CreateNextContextOptions) => {
-  return await createContextInner({ auth: getAuth(opts.req) });
+  let auth = null;
+  try {
+    auth = getAuth(opts.req);
+  }
+  catch (err) {
+  }
+  // return await createContextInner({ auth: getAuth(opts.req) });
+  return await createContextInner({ auth });
 };
 
 export type Context = inferAsyncReturnType<typeof createContext>;
