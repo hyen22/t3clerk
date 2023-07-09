@@ -31,14 +31,14 @@ export const createContextInner = async ({ auth }: AuthContextProps) => {
  * @link https://trpc.io/docs/context
  **/
 export const createContext = async (opts: CreateNextContextOptions) => {
-  let auth = null;
-  try {
-    auth = getAuth(opts.req);
-  }
-  catch (err) {
-  }
-  // return await createContextInner({ auth: getAuth(opts.req) });
-  return await createContextInner({ auth });
+  // let auth = null;
+  // try {
+  //   auth = getAuth(opts.req);
+  // }
+  // catch (err) {
+  // }
+  return await createContextInner({ auth: getAuth(opts.req) });
+  // return await createContextInner({ auth });
 };
 
 export type Context = inferAsyncReturnType<typeof createContext>;

@@ -7,6 +7,12 @@
 
 /** @type {import("next").NextConfig} */
 const config = {
+  env: {
+    DATABASE_URL:"postgresql://t3clerkuser:12345678@20.249.92.154:5432/t3clerk?schema=public",
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "pk_live_Y2xlcmsucmFrbm8udGsk",
+    CLERK_SECRET_KEY: "sk_live_i0pnRjADtk4N2WRmzF5x6JFvbnYjmByXcOEhZtVEIP ",
+    CLERK_TRUST_HOST: "true"
+  },
   reactStrictMode: true,
   swcMinify: true,
   transpilePackages: ["@acme/api", "@acme/db"],
